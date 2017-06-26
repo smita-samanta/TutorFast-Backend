@@ -1,7 +1,9 @@
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import uglify from 'gulp-uglify';
+import newer from 'gulp-newer';
 import del from 'del';
+import nodemon from 'gulp-nodemon';
 import { join } from 'path';
 
 const paths = {
@@ -13,6 +15,7 @@ const paths = {
 
 export function scripts() {
   return gulp.src(paths.scripts.src, { sourcemaps: true })
+    .pipe(newer(paths.scripts.dest))
     .pipe(babel())
     .pipe(uglify())
     .pipe(gulp.dest(paths.scripts.dest));
@@ -21,6 +24,26 @@ export function scripts() {
 const clean = () => del(['lib']);
 export { clean };
 
+export function watchScripts() {
+  gulp.watch(paths.scripts.src, scripts);
+}
+
+export function watchLib() {
+  nodemon({
+    script: 'lib',
+    watch: 'lib/',
+  });
+}
+
 export const build = gulp.series(clean, scripts);
+
+export const dev =
+  gulp.series(
+    build,
+    gulp.parallel(
+      watchScripts,
+      watchLib,
+    ),
+  );
 
 export default build;
