@@ -6,7 +6,9 @@
   "author": "Alex Aralis <alex.aralis@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "gulp build"
+    "build": "gulp build",
+    "postinstall": "gulp build",
+    "start": "node lib/index.js"
   },
   "dependencies": {
     "babel": "^6.23.0",
