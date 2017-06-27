@@ -1,5 +1,5 @@
 
-import User from '../models/user';
+import User from '../models/User';
 import { pjwt } from '../util';
 
 export default (req, res, next) => {
