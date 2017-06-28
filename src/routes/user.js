@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
   [
     'email',
     'username',
-  ].map(mapOn(userObj)(req.body));
+  ].forEach(mapOn(userObj)(req.body));
 
   // hash the user password for storage
   bcrypt.hash(req.body.password, 10)

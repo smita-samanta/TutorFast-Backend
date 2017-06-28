@@ -3,6 +3,7 @@ import User from '../models/User';
 import { pjwt } from '../util';
 
 export default (req, res, next) => {
+
   if (isWhitelistedRequest(req)) {
     next();
     return;
@@ -10,11 +11,15 @@ export default (req, res, next) => {
 
   const token = req.headers.authorization;
 
-  // if the token exists
-  token && pjwt
+  // reject if no token
+  if (!token) {
+    res.status(401).json({ err: 'Auth required.' });
+    return;
+  }
 
+  pjwt
     // verifty the server signed the token
-    .verifty(token, process.env.JWT_SECRET)
+    .verify(token, process.env.JWT_SECRET)
 
     // get the user with the use id from the db
     .then(({ _id }) => User.findOne({ _id }))
