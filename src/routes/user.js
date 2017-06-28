@@ -55,4 +55,8 @@ router.post('/', (req, res) => {
   ;
 });
 
+router.get('/', (req, res) => {
+  res.json(req.user);
+});
+
 export default router;
