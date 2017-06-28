@@ -25,14 +25,16 @@ const clean = () => del(['lib']);
 export { clean };
 
 export function watchScripts() {
-  gulp.watch(paths.scripts.src, scripts);
+  return gulp.watch(paths.scripts.src, scripts);
 }
 
-export function watchLib() {
+export function watchLib(done) {
   nodemon({
     script: 'lib',
     watch: 'lib/',
   });
+
+  done();
 }
 
 export const build = gulp.series(clean, scripts);
