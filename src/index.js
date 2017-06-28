@@ -1,7 +1,6 @@
 import express from 'express';
-import dotenv from 'dotenv-safe';
+import { PORT } from './config';
 
-dotenv.load();
 const app = express();
 
 import bodyParser from 'body-parser';
@@ -23,11 +22,14 @@ app.use(bodyParser.json());
 // Attach API routes
 import testRouter from './routes/test';
 import userRouter from './routes/user';
+import sessionRouter from './routes/session';
 
 app.use('/test', testRouter);
 app.use('/user', userRouter);
+app.use('/session', sessionRouter);
+
 
 // Start the server.
-const server = app.listen(process.env.PORT || 8888, () => {
+const server = app.listen(PORT, () => {
   console.log(`Listening on ${server.address().port}...`);
 });

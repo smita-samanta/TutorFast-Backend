@@ -1,5 +1,5 @@
 import db from '../db';
-import bcrypt from 'bcrypt-as-promised';
+import bcrypt from 'bcrypt';
 
 const userSchema = db.Schema({
   email: {

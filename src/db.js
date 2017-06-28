@@ -1,8 +1,6 @@
 import db from 'mongoose';
-import dotenv from 'dotenv-safe';
+import { DB_URI } from './config';
 
-dotenv.load();
-
-db.connect(process.env.DB_URI);
+db.connect(DB_URI);
 
 export default db;

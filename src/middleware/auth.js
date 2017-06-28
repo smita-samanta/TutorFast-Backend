@@ -1,6 +1,7 @@
 
 import User from '../models/User';
 import { pjwt } from '../util';
+import { JWT_SECRET } from '../config';
 
 export default (req, res, next) => {
 
@@ -19,7 +20,7 @@ export default (req, res, next) => {
 
   pjwt
     // verifty the server signed the token
-    .verify(token, process.env.JWT_SECRET)
+    .verify(token, JWT_SECRET)
 
     // get the user with the use id from the db
     .then(({ _id }) => User.findOne({ _id }))

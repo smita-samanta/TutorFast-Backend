@@ -2,7 +2,8 @@ import { Router } from 'express';
 import { mapOn } from '../util';
 import User from '../models/User';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt-as-promised';
+import bcrypt from 'bcrypt';
+import { JWT_SECRET, TOKEN_LIFE } from '../config';
 
 const router = Router();
 
@@ -40,8 +41,8 @@ router.post('/', (req, res) => {
       ({ _id }) =>
         jwt.sign(
           { _id },
-          process.env.JWT_SECRET,
-          { expiresIn: 60 * 60 * 24 },
+          JWT_SECRET,
+          TOKEN_LIFE,
         )
     )
 
