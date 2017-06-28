@@ -4,21 +4,18 @@ import User from '../models/User';
 const router = Router();
 
 router.post('/', (req, res) => {
-  const reject =
-    err => res.status(400).json({ err });
-
   if (!req.body) {
-    reject('Body required.');
+    res.status(400).json({ err: 'Body required.' });
     return;
   }
 
   if (!req.body.email) {
-    reject('Email required.');
+    res.status(400).json({ err: 'Email required.' });
     return;
   }
 
   if (!req.body.password) {
-    reject('Password required');
+    res.status(400).json({ err: 'Password required' });
     return;
   }
 
@@ -35,7 +32,7 @@ router.post('/', (req, res) => {
     .then(token => res.json({ token }))
 
     // reject if any problems occur.
-    .catch(reject)
+    .catch(err => res.status(400).json({ err }))
   ;
 
   return;
