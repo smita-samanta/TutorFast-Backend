@@ -1,5 +1,7 @@
 import db from '../db';
 import bcrypt from 'bcrypt';
+import { JWT_SECRET, TOKEN_LIFE } from '../config';
+import { pjwt } from '../util';
 
 const userSchema = db.Schema({
   email: {
@@ -24,8 +26,15 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
-userSchema.methods.authenticate = async function (password) {
-  return await bcrypt.compare(password, this.passwordDigest);
+userSchema.methods.authenticate = function (password) {
+  return bcrypt.compare(password, this.passwordDigest)
+
+    // reject if comare fails and produce a token on success.
+    .then(match => match
+      ? pjwt.sign({ _id: this._id }, JWT_SECRET, TOKEN_LIFE)
+      : Promise.reject('Password mismatch.')
+    )
+  ;
 };
 
 export default db.model('User', userSchema);

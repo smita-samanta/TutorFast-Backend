@@ -1,8 +1,5 @@
 import { Router } from 'express';
 import User from '../models/User';
-import bcrypt from 'bcrypt';
-import { JWT_SECRET, TOKEN_LIFE } from '../config';
-import { pjwt } from '../util';
 
 const router = Router();
 
@@ -25,25 +22,14 @@ router.post('/', (req, res) => {
     return;
   }
 
-  let foundUser;
-
-  // get a user
+  // get the user
   User.findOne({ email: req.body.email })
 
     // make sure a user is returned
-    .then(user => user ? user : Promise.reject())
+    .then(user => user ? user : Promise.reject('User not found.'))
 
-    // save user for later
-    .then(user => foundUser = user)
-
-    // compare hashes
-    .then(user => bcrypt.compare(req.body.password, user.passwordDigest))
-
-    // check if hashes were correct
-    .then(match => match ? foundUser : Promise.reject())
-
-    // generate token
-    .then(({ _id }) => pjwt.sign({ _id }, JWT_SECRET, TOKEN_LIFE))
+    // compare hashes and generate a token
+    .then(user => user.authenticate(req.body.password))
 
     // send token to requester
     .then(token => res.json({ token }))
@@ -54,3 +40,5 @@ router.post('/', (req, res) => {
 
   return;
 });
+
+export default router;
