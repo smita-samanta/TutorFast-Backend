@@ -72,4 +72,15 @@ router.patch('/', (req, res) => {
   ;
 });
 
+router.delete('/', (req, res) => {
+  req.user
+    .authenticate(req.body.password)
+    .then(req.user.remove())
+    .then(user => res.json({
+      message: 'User deleted successfully.',
+      user,
+    }))
+    .catch(err => res.status(400).json({ err }));
+});
+
 export default router;
