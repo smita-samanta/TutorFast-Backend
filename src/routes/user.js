@@ -13,13 +13,12 @@ router.post('/', (req, res) => {
     return;
   }
 
-  const userObj = {};
   let newUser;
 
-  [
+  const userObj = [
     'email',
     'username',
-  ].forEach(mapOn(userObj)(req.body));
+  ].reduce(mapOn(req.body), {});
 
   // hash the user password for storage
   bcrypt.hash(req.body.password, 10)
@@ -58,6 +57,19 @@ router.post('/', (req, res) => {
 
 router.get('/', (req, res) => {
   res.json(req.user);
+});
+
+router.patch('/', (req, res) => {
+  [
+    'email',
+    'username',
+    'password',
+  ].reduce(mapOn(req.body), req.user);
+
+  req.user.save()
+    .then(user => res.json({ user }))
+    .catch(err => res.status(400).json({ err }))
+  ;
 });
 
 export default router;

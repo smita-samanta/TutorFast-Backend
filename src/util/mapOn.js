@@ -1,7 +1,9 @@
 
 export default
-(to: Object): Function =>
-  (from: Object): Function =>
-    (key: string): any =>
-      to[key] = from[key]
+(from: {}): Function =>
+  (to: {} = {}, key: string): {} => {
+    if (from[key] !== undefined) to[key] = from[key];
+
+    return to;
+  }
 ;
