@@ -6,7 +6,7 @@ export default (req, res, next) => {
   res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization');
 
   // Allow more HTTP verbs.
-  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE');
+  res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,PATCH');
 
   // Continue processing the request.
   next();
