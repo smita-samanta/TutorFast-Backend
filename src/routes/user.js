@@ -75,7 +75,7 @@ router.patch('/', (req, res) => {
 router.delete('/', (req, res) => {
   req.user
     .authenticate(req.body.password)
-    .then(req.user.remove)
+    .then(() => req.user.remove())
     .then(user => res.json({
       message: 'User deleted successfully.',
       user,
