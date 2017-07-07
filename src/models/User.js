@@ -17,6 +17,16 @@ const userSchema = db.Schema({
     type: String,
     required: true,
   },
+
+  isTutor: {
+    type: Boolean,
+    default: false
+  },
+
+  subjects: {
+    type: [String],
+    default: [],
+  },
 });
 
 userSchema.methods.toJSON = function () {
