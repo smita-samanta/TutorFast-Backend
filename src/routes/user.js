@@ -18,6 +18,9 @@ router.post('/', (req, res) => {
   const userObj = [
     'email',
     'username',
+    'isTutor',
+    'subjects',
+    'zipCode',
   ].reduce(mapOn(req.body), {});
 
   // hash the user password for storage
@@ -64,6 +67,9 @@ router.patch('/', (req, res) => {
     'email',
     'username',
     'password',
+    'isTutor',
+    'zipCode',
+    'subjects',
   ].reduce(mapOn(req.body), req.user);
 
   req.user.save()

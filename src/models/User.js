@@ -20,12 +20,14 @@ const userSchema = db.Schema({
 
   isTutor: {
     type: Boolean,
-    default: false
+    default: false,
   },
 
-  subjects: {
-    type: [String],
-    default: [],
+  subjects: [String],
+
+  zipCode: {
+    type: Number,
+    default: null,
   },
 });
 
