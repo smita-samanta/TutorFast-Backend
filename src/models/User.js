@@ -29,6 +29,11 @@ const userSchema = db.Schema({
     type: Number,
     default: null,
   },
+
+  rate: {
+    type: Number,
+    default: 0,
+  },
 });
 
 userSchema.methods.toJSON = function () {
