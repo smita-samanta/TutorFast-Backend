@@ -23,10 +23,12 @@ app.use(bodyParser.json());
 import testRouter from './routes/test';
 import userRouter from './routes/user';
 import sessionRouter from './routes/session';
+import tutorRouter from './routes/tutor';
 
 app.use('/test', testRouter);
 app.use('/user', userRouter);
 app.use('/session', sessionRouter);
+app.use('/tutor', tutorRouter);
 
 
 // Start the server.
