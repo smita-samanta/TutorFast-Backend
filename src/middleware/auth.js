@@ -41,10 +41,7 @@ export default (req, res, next) => {
 };
 
 function isWhitelistedRequest(req) {
-  if (isPreflight(req)) return true;
-  if (isLoggingInOrSigningUp(req)) return true;
-
-  return false;
+  return isPreflight(req) || isLoggingInOrSigningUp(req) || isGettingTutors(req);
 }
 
 function isLoggingInOrSigningUp(req) {
@@ -54,6 +51,12 @@ function isLoggingInOrSigningUp(req) {
   const signingUp = req.originalUrl.includes('user');
 
   return loggingIn || signingUp;
+}
+
+function isGettingTutors(req) {
+  if (req.method.toLowerCase() !== 'get') return false;
+
+  return req.originalUrl.includes('tutor');
 }
 
 function isPreflight(req) {

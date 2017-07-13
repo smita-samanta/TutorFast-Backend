@@ -17,6 +17,7 @@ app.use(authMiddleware);
 // Parses 'application/json' bodies and hanges the
 // resulting object at `req.body`.
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Attach API routes
