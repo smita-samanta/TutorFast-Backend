@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
   if ('maxWage' in reqQuery) query.rate.$lt = Number(reqQuery.maxWage);
   if ('minWage' in reqQuery) query.rate.$gt = Number(reqQuery.minWage);
 
-  if ('subjects' in reqQuery) query.subjects = { $in: reqQuery.subjects };
+  if ('subjects' in reqQuery) query.subjects = { $in: reqQuery.subjects.map(subject => RegExp(subject, 'i')) };
 
   if ('zipCode' in reqQuery) query.zipCode = reqQuery.zipCode;
   if ('username' in reqQuery) query.username = { $regex: reqQuery.username };
