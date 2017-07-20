@@ -30,7 +30,7 @@ const userSchema = db.Schema({
     default: null,
   },
 
-  rate: {
+  wage: {
     type: Number,
     default: 0,
   },
