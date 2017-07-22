@@ -48,7 +48,7 @@ function isLoggingInOrSigningUp(req) {
   if (req.method.toLowerCase() !== 'post') return false;
 
   const loggingIn = req.originalUrl.includes('session');
-  const signingUp = req.originalUrl.includes('user');
+  const signingUp = req.originalUrl === '/user';
 
   return loggingIn || signingUp;
 }

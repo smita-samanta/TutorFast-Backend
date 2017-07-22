@@ -7,6 +7,11 @@ import { JWT_SECRET, TOKEN_LIFE } from '../config';
 
 const router = Router();
 
+import cardRouter from './card';
+
+router.use('/card', cardRouter);
+
+
 router.post('/', (req, res) => {
   if (!req.body.password) {
     res.status(422).json({ err: 'Password must be present.' });
