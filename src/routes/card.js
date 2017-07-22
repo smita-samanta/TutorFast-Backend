@@ -4,15 +4,25 @@ import stripe from '../stripe';
 const router = Router();
 
 router.post('/', (req, res) => {
-  stripe.customers.create({
-    email: req.user.email,
-    source: req.body.cardToken,
-  })
-    .then(({ id }) => req.user.card = id)
-    .then(() => req.user.save())
-    .then(() => res.json({ message: 'Card has been saved.' }))
-    .catch(err => res.status(400).json({ err, message: 'Card could not be saved.' }))
-  ;
+  try {
+    if (!req.user.card)
+      stripe.customers.create({
+        email: req.user.email,
+        source: req.body.cardToken,
+      })
+        .then(({ id }) => req.user.card = id)
+        .then(() => req.user.save())
+        .then(() => res.json({ message: 'Card has been saved.' }))
+        .catch(err => res.status(400).json({ err, message: 'Card could not be saved.' }));
+    else
+      stripe.customers.update(req.user.card, {
+        source: req.body.cardToken,
+      })
+        .then(() => res.json({ message: 'Card has been updated' }))
+        .catch(err => res.status(400).json({ err, message: 'Card could not be updated.' }));
+  } catch (err) {
+    res.status(500).json({ err, message: 'Server error.' });
+  }
 });
 
 export default router;
