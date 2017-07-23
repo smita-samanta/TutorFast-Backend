@@ -25,4 +25,21 @@ router.post('/', (req, res) => {
   }
 });
 
+router.delete('/', (req, res) => {
+  try {
+    if (!req.user.card)
+      res.status(400).json({ message: 'User has no card' });
+    else
+      stripe.customers.del(req.user.card)
+        .then(() => req.user.card = '')
+        .then(() => req.user.save())
+        .then(() => res.json({ message: 'Card was deleted.' }))
+        .catch(err => res.status(400).json({ err, message: 'Card could not be deleted.' }))
+    ;
+  } catch (err) {
+    res.status(500).json({ err, message: 'Server error.' });
+  }
+});
+
+
 export default router;
