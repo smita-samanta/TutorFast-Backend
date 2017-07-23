@@ -12,13 +12,13 @@ router.post('/', (req, res) => {
       })
         .then(({ id }) => req.user.card = id)
         .then(() => req.user.save())
-        .then(() => res.json({ message: 'Card has been saved.' }))
+        .then(() => res.json({ message: 'Card has been saved.', user: req.user }))
         .catch(err => res.status(400).json({ err, message: 'Card could not be saved.' }));
     else
       stripe.customers.update(req.user.card, {
         source: req.body.cardToken,
       })
-        .then(() => res.json({ message: 'Card has been updated' }))
+        .then(() => res.json({ message: 'Card has been updated', user: req.user }))
         .catch(err => res.status(400).json({ err, message: 'Card could not be updated.' }));
   } catch (err) {
     res.status(500).json({ err, message: 'Server error.' });
