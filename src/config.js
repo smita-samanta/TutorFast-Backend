@@ -6,4 +6,4 @@ export const JWT_SECRET = process.env.JWT_SECRET;
 export const DB_URI = process.env.DB_URI;
 export const PORT = process.env.PORT || 8888;
 export const STRIPE_CLIENT_SECRET = process.env.STRIPE_CLIENT_SECRET;
-export const FRONTEND_URI = 'http://localhost:9000';
+export const FRONTEND_URI = process.env.FRONTEND_URI;
