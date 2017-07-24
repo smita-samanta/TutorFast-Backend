@@ -36,6 +36,8 @@ const userSchema = db.Schema({
   },
 
   card: String,
+
+  account: String,
 });
 
 userSchema.methods.toJSON = function () {

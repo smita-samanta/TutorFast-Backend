@@ -9,7 +9,10 @@ export default (req, res, next) => {
     return;
   }
 
-  const token = req.headers.authorization;
+  const token = isStripeRedirect(req)
+    ? req.query && req.query.state
+    : req.headers.authorization
+  ;
 
   // reject if no token
   if (!token) {
@@ -41,14 +44,17 @@ export default (req, res, next) => {
 };
 
 function isWhitelistedRequest(req) {
-  return isPreflight(req) || isLoggingInOrSigningUp(req) || isGettingTutors(req);
+  return isPreflight(req)
+    || isLoggingInOrSigningUp(req)
+    || isGettingTutors(req)
+    || isFailedStripeRedirect(req);
 }
 
 function isLoggingInOrSigningUp(req) {
   if (req.method.toLowerCase() !== 'post') return false;
 
-  const loggingIn = req.originalUrl.includes('session');
-  const signingUp = req.originalUrl === '/user';
+  const loggingIn = req.path.includes('session');
+  const signingUp = req.path === '/user';
 
   return loggingIn || signingUp;
 }
@@ -56,9 +62,17 @@ function isLoggingInOrSigningUp(req) {
 function isGettingTutors(req) {
   if (req.method.toLowerCase() !== 'get') return false;
 
-  return req.originalUrl.includes('tutor');
+  return req.path.includes('tutor');
 }
 
 function isPreflight(req) {
   return req.method.toLowerCase() === 'options';
+}
+
+function isStripeRedirect(req) {
+  return req.method.toLowerCase() === 'get' && req.path === '/stripe/pad';
+}
+
+function isFailedStripeRedirect(req) {
+  return isStripeRedirect(req) && (!req.query || req.query.error);
 }
