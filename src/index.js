@@ -32,17 +32,17 @@ import tutorRouter from './routes/tutor';
 import stripeRouter from './routes/stripe';
 import rawRouter from './routes/raw';
 
+// Raw routes.
+raw.use('/', rawRouter);
+app.use('/raw', raw);
+
 // processed routes.
 root.use('/test', testRouter);
 root.use('/user', userRouter);
 root.use('/session', sessionRouter);
 root.use('/tutor', tutorRouter);
 root.use('/stripe', stripeRouter);
-app.use(root);
-
-// Raw routes.
-raw.use('/', rawRouter);
-app.use('/raw', raw);
+app.use('/', root);
 
 
 // Start the server.
