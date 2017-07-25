@@ -25,6 +25,8 @@ router.post('/webhook', bodyParser.raw({ type: '*/*' }), (req, res) => {
   );
 
   console.log(event);
+
+  res.send(200);
 });
 
 router.get('/pad', (req, res) => {
