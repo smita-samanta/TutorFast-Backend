@@ -47,8 +47,7 @@ function isWhitelistedRequest(req) {
   return isPreflight(req)
     || isLoggingInOrSigningUp(req)
     || isGettingTutors(req)
-    || isFailedStripeRedirect(req)
-    || isStripeWebhook(req);
+    || isFailedStripeRedirect(req);
 }
 
 function isLoggingInOrSigningUp(req) {
@@ -76,8 +75,4 @@ function isStripeRedirect(req) {
 
 function isFailedStripeRedirect(req) {
   return isStripeRedirect(req) && (!req.query || req.query.error);
-}
-
-function isStripeWebhook(req) {
-  return req.method.toLowerCase() === 'post' && req.path === '/raw/stripe/webhook';
 }
