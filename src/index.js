@@ -17,8 +17,8 @@ app.use(headersMiddleware);
 
 // Parses 'application/json' bodies and hanges the
 // resulting object at `req.body`.
-root.use(bodyParser.json());
-root.use(bodyParser.urlencoded({ extended: true }));
+// root.use(bodyParser.json());
+// root.use(bodyParser.urlencoded({ extended: true }));
 root.use(authMiddleware);
 
 raw.use(bodyParser.raw({ type: '*/*' }));
