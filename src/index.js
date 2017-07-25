@@ -42,8 +42,8 @@ root.use('/stripe', stripeRouter);
 app.use(root);
 
 // Raw routes.
-raw.use(rawRouter);
-app.use('/raw', raw);
+raw.use('/raw', rawRouter);
+app.use(raw);
 
 
 // Start the server.
