@@ -14,20 +14,24 @@ import stripe from '../stripe';
 
 const router = Router();
 
-router.post('/webhook', bodyParser.raw({ type: '*/*' }), (req, res) => {
-  console.log(req.body);
-  console.log(req.headers['stripe-signature']);
+router.post('/webhook',
+  (req, res, next) => { req._body = false; next(); },
+  bodyParser.raw({ type: '*/*' }),
+  (req, res) => {
+    console.log(req.body);
+    console.log(req.headers['stripe-signature']);
 
-  const event = stripe.webhooks.constructEvent(
-    req.body,
-    req.headers['stripe-signature'],
-    STRIPE_WEBHOOK_SECRET,
-  );
+    const event = stripe.webhooks.constructEvent(
+      req.body,
+      req.headers['stripe-signature'],
+      STRIPE_WEBHOOK_SECRET,
+    );
 
-  console.log(event);
+    console.log(event);
 
-  res.send(200);
-});
+    res.send(200);
+  }
+);
 
 router.get('/pad', (req, res) => {
   try {
