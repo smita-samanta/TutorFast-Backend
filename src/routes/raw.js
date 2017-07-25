@@ -2,14 +2,12 @@ import { Router } from 'express';
 
 import stripe from '../stripe';
 import { STRIPE_WEBHOOK_SECRET } from '../config';
+import User from '../models/User';
+import { pipe } from '../util';
 
 const router = Router();
 
 router.post('/stripe/webhook', (req, res) => {
-  console.log(req.body);
-  console.log(typeof req.body);
-  console.log(req.headers['stripe-signature']);
-
   const event = stripe.webhooks.constructEvent(
     req.body,
     req.headers['stripe-signature'],
@@ -17,8 +15,18 @@ router.post('/stripe/webhook', (req, res) => {
   );
 
   console.log(event);
+  console.log(event.type);
 
-  res.send(200);
+  switch (event.type) {
+    case 'account.application.deauthorized':
+      User.update({ account: event.account }, { $set: { account: '' } })
+        .then(() => res.sendStatus(200))
+        .catch(() => res.sendStatus(500))
+      ;
+      break;
+    default:
+      res.sendStatus(200);
+  }
 });
 
 export default router;
