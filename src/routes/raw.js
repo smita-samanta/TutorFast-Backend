@@ -3,7 +3,6 @@ import { Router } from 'express';
 import stripe from '../stripe';
 import { STRIPE_WEBHOOK_SECRET } from '../config';
 import User from '../models/User';
-import { pipe } from '../util';
 
 const router = Router();
 

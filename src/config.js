@@ -8,3 +8,4 @@ export const PORT = process.env.PORT || 8888;
 export const STRIPE_CLIENT_SECRET = process.env.STRIPE_CLIENT_SECRET;
 export const FRONTEND_URI = process.env.FRONTEND_URI;
 export const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET;
+export const STRIPE_CLIENT_ID = process.env.STRIPE_CLIENT_ID;
