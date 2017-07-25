@@ -39,10 +39,10 @@ root.use('/user', userRouter);
 root.use('/session', sessionRouter);
 root.use('/tutor', tutorRouter);
 root.use('/stripe', stripeRouter);
-app.use('/', root);
+app.use(root);
 
 // Raw routes.
-raw.use('/', rawRouter);
+raw.use(rawRouter);
 app.use('/raw', raw);
 
 
