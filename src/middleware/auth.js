@@ -16,6 +16,7 @@ export default (req, res, next) => {
 
   // reject if no token
   if (!token) {
+    console.log('no token given to auth.');
     res.status(401).json({ err: 'Auth required.' });
     return;
   }
