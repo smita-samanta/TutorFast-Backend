@@ -1,11 +1,31 @@
 import { Router } from 'express';
 import fetch from 'node-fetch';
+import bodyParser from 'body-parser';
 
-import { FRONTEND_URI, STRIPE_CLIENT_SECRET, STRIPE_CLIENT_ID } from '../config';
+import {
+  FRONTEND_URI,
+  STRIPE_CLIENT_SECRET,
+  STRIPE_CLIENT_ID,
+  STRIPE_WEBHOOK_SECRET,
+} from '../config';
 import { screenResponse } from '../util';
+import stripe from '../stripe';
 
 
 const router = Router();
+
+router.post('/webhook', bodyParser.raw({ type: '*/*' }), (req, res) => {
+  console.log(req.body);
+  console.log(req.headers['stripe-signature']);
+
+  const event = stripe.webhook.constructEvent(
+    req.body,
+    req.headers['stripe-signature'],
+    STRIPE_WEBHOOK_SECRET,
+  );
+
+  console.log(event);
+});
 
 router.get('/pad', (req, res) => {
   try {
