@@ -18,7 +18,7 @@ router.post('/webhook', bodyParser.raw({ type: '*/*' }), (req, res) => {
   console.log(req.body);
   console.log(req.headers['stripe-signature']);
 
-  const event = stripe.webhook.constructEvent(
+  const event = stripe.webhooks.constructEvent(
     req.body,
     req.headers['stripe-signature'],
     STRIPE_WEBHOOK_SECRET,
