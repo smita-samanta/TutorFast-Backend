@@ -5,7 +5,7 @@ import { STRIPE_WEBHOOK_SECRET } from '../config';
 
 const router = Router();
 
-router.post('stripe/webhook', (req, res) => {
+router.post('/stripe/webhook', (req, res) => {
   console.log(req.body);
   console.log(req.headers['stripe-signature']);
 
