@@ -15,14 +15,14 @@ import stripe from '../stripe';
 const router = Router();
 
 router.post('/webhook',
-  (req, res, next) => { req._body = false; next(); },
+  // (req, res, next) => { req._body = false; next(); },
   bodyParser.raw({ type: '*/*' }),
   (req, res) => {
     console.log(req.body);
     console.log(req.headers['stripe-signature']);
 
     const event = stripe.webhooks.constructEvent(
-      req.body,
+      JSON.stringify(req.body),
       req.headers['stripe-signature'],
       STRIPE_WEBHOOK_SECRET,
     );
