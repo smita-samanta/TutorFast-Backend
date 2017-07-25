@@ -79,5 +79,5 @@ function isFailedStripeRedirect(req) {
 }
 
 function isStripeWebhook(req) {
-  return req.method.toLowerCase() === 'post' && req.path === '/stripe/webhook';
+  return req.method.toLowerCase() === 'post' && req.path === '/raw/stripe/webhook';
 }
