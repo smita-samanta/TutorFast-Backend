@@ -27,9 +27,15 @@ export const appointmentSchema = db.Schema({
     required: true,
   },
 
-  approved: {
-    type: Boolean,
-    default: false,
+  state: {
+    type: String,
+    required: true,
+    default: 'proposed',
+    enum: [
+      'proposed',
+      'approved',
+      'rejected',
+    ],
   },
 });
 
