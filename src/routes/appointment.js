@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import User from '../models/User';
-import Appointment from '../modols/Appointment';
+import Appointment from '../models/Appointment';
 
 
 const router = Router();
@@ -22,3 +22,4 @@ router.post('/', (req, res) => {
   ;
 });
 
+export default router;
