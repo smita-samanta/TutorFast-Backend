@@ -43,10 +43,19 @@ router.post('/', (req, res) => {
 router.post('/approve/:id', (req, res) => {
   const tutor = req.user;
 
+  if (!tutor.account) {
+    res.status(400).json({ message: 'Tutor must have account registered.' });
+    return;
+  }
+
   Appointment.findOne({ _id: req.params.id, tutor: tutor._id, state: 'proposed' })
+    .then(appointment => appointment.populate('learner').execPopulate())
     .then(appointment => {
+      if (!appointment.learner.card)
+        return Promise.reject('Learner must have a registred card.');
+
       appointment.state = 'approved';
-      return appointment.save();
+      return appointment.depopulate('learner').save();
     })
     .then(appointment => res.json({ appointment, message: 'Appointment approved.' }))
     .catch(err => res.status(400).json({ err, message: 'Appointment could not be approved.' }))
