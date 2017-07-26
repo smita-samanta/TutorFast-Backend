@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import User from '../models/User';
 import Appointment from '../models/Appointment';
-
+import stripe from '../stripe';
 
 const router = Router();
 
@@ -50,10 +50,23 @@ router.post('/approve/:id', (req, res) => {
 
   Appointment.findOne({ _id: req.params.id, tutor: tutor._id, state: 'proposed' })
     .then(appointment => appointment.populate('learner').execPopulate())
-    .then(appointment => {
-      if (!appointment.learner.card)
-        return Promise.reject('Learner must have a registred card.');
+    .then(appointment => appointment.learner.card
+      ? appointment
+      : Promise.reject('Learner must have a registred card.'))
+    .then(async appointment => {
+      const learner = appointment.learner;
 
+      appointment.transaction = await stripe.charges.create({
+        amount: tutor.wage * 100 * ((new Date(appointment.endDate) - new Date(appointment.startDate)) / 1000 / 60 / 60),
+        currency: 'usd',
+        customer: learner.card,
+      }, {
+        stripe_account: tutor.account,
+      });
+
+      return appointment.save();
+    })
+    .then(appointment => {
       appointment.state = 'approved';
       return appointment.depopulate('learner').save();
     })

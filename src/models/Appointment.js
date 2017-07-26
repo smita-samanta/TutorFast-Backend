@@ -37,6 +37,8 @@ export const appointmentSchema = db.Schema({
       'rejected',
     ],
   },
+
+  transaction: Object,
 });
 
 appointmentSchema.methods.toJSON = function () {
