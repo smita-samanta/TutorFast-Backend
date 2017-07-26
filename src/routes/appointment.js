@@ -14,13 +14,13 @@ router.post('/', (req, res) => {
     return;
   }
 
-  User.find({ _id: req.body.tutor._id, isTutor: true })
+  User.findOne({ _id: req.body.tutor, isTutor: true })
     .then(tutor => new Appointment({
       tutor: tutor._id,
       learner: learner._id,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
-      location: req.body.endDate,
+      location: req.body.location,
     }))
     .then(appointment => appointment.save())
     .then(appointment => res.json({ appointment, message: 'Appointment was created.' }))
