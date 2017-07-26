@@ -26,6 +26,11 @@ export const appointmentSchema = db.Schema({
     type: String,
     required: true,
   },
+
+  approved: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 appointmentSchema.methods.toJSON = function () {
