@@ -30,6 +30,7 @@ import userRouter from './routes/user';
 import sessionRouter from './routes/session';
 import tutorRouter from './routes/tutor';
 import stripeRouter from './routes/stripe';
+import appointmentRouter from './routes/appointment';
 import rawRouter from './routes/raw';
 
 // Raw routes.
@@ -42,6 +43,7 @@ root.use('/user', userRouter);
 root.use('/session', sessionRouter);
 root.use('/tutor', tutorRouter);
 root.use('/stripe', stripeRouter);
+root.use('/appointment', appointmentRouter);
 app.use('/', root);
 
 

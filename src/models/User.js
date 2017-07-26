@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 import { JWT_SECRET, TOKEN_LIFE } from '../config';
 import { pjwt } from '../util';
 
-const userSchema = db.Schema({
+export const userSchema = db.Schema({
   email: {
     type: String,
     required: true,
