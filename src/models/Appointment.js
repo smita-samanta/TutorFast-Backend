@@ -36,6 +36,11 @@ export const appointmentSchema = db.Schema({
       'approved',
       'rejected',
     ],
+
+    subject: {
+      type: String,
+      required: true,
+    },
   },
 
   cost: Number,

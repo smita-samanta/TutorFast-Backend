@@ -33,6 +33,7 @@ router.post('/', (req, res) => {
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       location: req.body.location,
+      subject: req.body.subject,
       cost: tutor.wage * ((new Date(req.body.endDate) - new Date(req.body.startDate)) / 1000 / 60 / 60),
     }))
     .then(appointment => appointment.populate('learner').populate('tutor').execPopulate())
