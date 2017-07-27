@@ -56,13 +56,13 @@ router.post('/approve/:id', (req, res) => {
     .then(async appointment => {
       const learner = appointment.learner;
 
-      appointment.charge = await stripe.charges.create({
+      appointment.charge = (await stripe.charges.create({
         amount: tutor.wage * 100 * ((new Date(appointment.endDate) - new Date(appointment.startDate)) / 1000 / 60 / 60),
         currency: 'usd',
         customer: learner.card,
       }, {
         stripe_account: tutor.account,
-      }).id;
+      })).id;
 
       return appointment.save();
     })
