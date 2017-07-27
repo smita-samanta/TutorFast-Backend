@@ -38,7 +38,7 @@ export const appointmentSchema = db.Schema({
     ],
   },
 
-  transaction: Object,
+  charge: String,
 });
 
 appointmentSchema.methods.toJSON = function () {
