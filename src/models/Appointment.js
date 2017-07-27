@@ -38,6 +38,8 @@ export const appointmentSchema = db.Schema({
     ],
   },
 
+  cost: Number,
+
   charge: String,
 });
 

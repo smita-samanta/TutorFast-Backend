@@ -33,6 +33,7 @@ router.post('/', (req, res) => {
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       location: req.body.location,
+      cost: tutor.wage * ((new Date(req.body.endDate) - new Date(req.body.startDate)) / 1000 / 60 / 60),
     }))
     .then(appointment => appointment.save())
     .then(appointment => res.json({ appointment, message: 'Appointment was created.' }))
@@ -57,7 +58,7 @@ router.post('/approve/:id', (req, res) => {
       const learner = appointment.learner;
 
       appointment.charge = (await stripe.charges.create({
-        amount: tutor.wage * 100 * ((new Date(appointment.endDate) - new Date(appointment.startDate)) / 1000 / 60 / 60),
+        amount: appointment.cost * 100,
         currency: 'usd',
         customer: learner.card,
       }, {
