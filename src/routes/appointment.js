@@ -7,8 +7,8 @@ const router = Router();
 
 router.get('/', (req, res) => {
   Promise.all([
-    Appointment.find({ tutor: req.user._id }),
-    Appointment.find({ learner: req.user._id }),
+    Appointment.find({ tutor: req.user._id }).populate('learner').populate('tutor').exec(),
+    Appointment.find({ learner: req.user._id }).populate('learner').populate('tutor').exec(),
   ])
     .then(([asTutor, asLearner]) =>
       res.json({ asTutor, asLearner }))
