@@ -35,6 +35,7 @@ router.post('/', (req, res) => {
       location: req.body.location,
       cost: tutor.wage * ((new Date(req.body.endDate) - new Date(req.body.startDate)) / 1000 / 60 / 60),
     }))
+    .then(appointment => appointment.populate('learner').populate('tutor').execPopulate())
     .then(appointment => appointment.save())
     .then(appointment => res.json({ appointment, message: 'Appointment was created.' }))
     .catch(err => res.status(400).json({ err, message: 'Tutor does not exist.' }))
@@ -50,7 +51,7 @@ router.post('/approve/:id', (req, res) => {
   }
 
   Appointment.findOne({ _id: req.params.id, tutor: tutor._id, state: 'proposed' })
-    .then(appointment => appointment.populate('learner').execPopulate())
+    .then(appointment => appointment.populate('learner').populate('tutor').execPopulate())
     .then(appointment => appointment.learner.card
       ? appointment
       : Promise.reject('Learner must have a registred card.'))
@@ -69,7 +70,7 @@ router.post('/approve/:id', (req, res) => {
     })
     .then(appointment => {
       appointment.state = 'approved';
-      return appointment.depopulate('learner').save();
+      return appointment.save();
     })
     .then(appointment => res.json({ appointment, message: 'Appointment approved.' }))
     .catch(err => res.status(400).json({ err, message: 'Appointment could not be approved.' }))
@@ -85,6 +86,7 @@ router.post('/reject/:id', (req, res) => {
       appointment.state = 'rejected';
       return appointment.save();
     })
+    .then(appointment => appointment.populate('learner').populate('tutor').execPopulate())
     .then(appointment => res.json({ appointment, message: 'Appointment rejected.' }))
     .catch(err => res.status(400).json({ err, message: 'Appointment could not be rejected.' }))
   ;

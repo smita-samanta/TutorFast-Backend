@@ -40,12 +40,12 @@ export const userSchema = db.Schema({
   account: String,
 });
 
-userSchema.methods.toJSON = function () {
-  const user = this.toObject();
-  delete user.passwordDigest;
-  delete user.__v;
-  return user;
-};
+userSchema.set('toObject', {
+  transform: (_, ret) => {
+    delete ret.passwordDigest;
+    delete ret.__v;
+  },
+});
 
 userSchema.methods.authenticate = function (password) {
   return bcrypt.compare(password, this.passwordDigest)
