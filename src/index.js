@@ -27,6 +27,7 @@ raw.use(bodyParser.raw({ type: '*/*' }));
 // Attach API routes
 import testRouter from './routes/test';
 import userRouter from './routes/user';
+import reviewRouter from './routes/review';
 import sessionRouter from './routes/session';
 import tutorRouter from './routes/tutor';
 import stripeRouter from './routes/stripe';
@@ -40,6 +41,7 @@ app.use('/raw', raw);
 // processed routes.
 root.use('/test', testRouter);
 root.use('/user', userRouter);
+root.use('/user', reviewRouter);
 root.use('/session', sessionRouter);
 root.use('/tutor', tutorRouter);
 root.use('/stripe', stripeRouter);
